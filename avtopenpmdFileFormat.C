@@ -946,7 +946,7 @@ void avtopenpmdFileFormat::PopulateHierarchyCache(
 
         for (auto const &entry : components) {
           const std::string &componentName = entry.first;
-          std::string varname = group.first + "_" + componentName;
+          std::string varname = group.first + "/" + componentName;
           avtCentering cent =
               GetCenteringType<openPMD::MeshRecordComponent>(entry.second);
           if (cent != AVT_UNKNOWN_CENT) {
@@ -2977,9 +2977,7 @@ GeometryData avtopenpmdFileFormat::GetGeometry3D(
   }
 
   // get array extents — for non-scalar meshes mesh.getExtent() returns {1}
-  // (the inherited scalar slot has no dataset), so use the representative
-  // component's extent instead.
-  auto extent = (!mesh.scalar() && representative != nullptr)
+  auto extent = (!mesh.scalar())
                     ? representative->getExtent()
                     : mesh.getExtent();
 
